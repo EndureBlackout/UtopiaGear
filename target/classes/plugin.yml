@@ -1,0 +1,8 @@
+name: UtopiaGear
+main: me.endureblackout.UtopiaGear.UtopiaGear
+version: 1.0
+description: Stronger armor
+author: [EndureBlackout]
+commands:
+  ug:
+    description: Main UtopiaGear command.

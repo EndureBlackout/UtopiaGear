@@ -1,0 +1,63 @@
+#Armor Tutorial:
+#	Name: (Name of armor)
+#	Color: (Color of armor)
+#	pvphighest: (Tweak to your liking. 8 high and 7 low is what I like.)
+#	pvplowest: (Tweak to your liking. 8 high and 7 low is what I like.)
+#	pvehighest: (Tweak to your liking. If you go too high some pve might now do any damager.)
+#	pvelowest: (Tweak to your liking. If you go too high some pve might now do any damager.)
+#	lore: (lore on the armor. Can have color codes.)
+#	price: (price of armor)
+#	goodeffects: (List of usable effects below. Go on player wearing the armor. <effect,chance,duration,amplifier(0=level 1)>)
+#	badeffects: (List of usable effects below. Go on other player. <effect,chance,duration,amplifier(0=level 1)>)
+#-------------------------------------------------------------------------------------------------
+#Usable Potion Effects:
+#	absorption
+#	blindness
+#	confusion
+#	damage_resistance
+#	fast_digging
+#	fire_resistance
+#	harm
+#	heal
+#	health_boost
+#	hunger
+#	increase_damage
+#	invisibility
+#	jump
+#	luck
+#	night_vision
+# 	poison
+#	regeneration
+#	saturation
+#	slow
+#	slow_digging
+#	speed
+#	unluck
+#	water_breathing
+#	weakness
+#	wither
+#---------------------------------------------------------------------------------------------------
+
+particles: false
+
+Tokens:
+   Name: "&eUtopia Token"
+   Item: 399
+   Lore: "&e/ug buy <itemname>"
+
+Gear:
+  Hornet:
+     Name: "&eHornet Armor"
+     Color: "Yellow"
+     pvphighest: 8
+     pvplowest: 7
+     pvehighest: 1
+     pvelowest: 1
+     lore: 
+     - "&5Float like a &2butterfly&5, sting like a &ebee&5."
+     price: 60
+     oponly: false
+     goodeffects:
+       - haste,0.1,5,0
+     badeffects:
+       - weakness,0.2,10,1
