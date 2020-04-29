@@ -4,7 +4,10 @@ me\endureblackout\UtopiaGear\WeaponHandler.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticleDataException.class
 me\endureblackout\UtopiaGear\UtopiaWeapon.class
 me\endureblackout\UtopiaGear\ReflectionUtils$DataType.class
+me\endureblackout\UtopiaGear\StopBrewEvent.class
+me\endureblackout\UtopiaGear\CommandHandler$4.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticlePacket$PacketInstantiationException.class
+me\endureblackout\UtopiaGear\CommandHandler$5.class
 me\endureblackout\UtopiaGear\ParticleEffect$BlockData.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticlePacket$VersionIncompatibleException.class
 me\endureblackout\UtopiaGear\ParticleEffect.class
@@ -23,6 +26,7 @@ me\endureblackout\UtopiaGear\IconMenu.class
 me\endureblackout\UtopiaGear\CommandHandler.class
 me\endureblackout\UtopiaGear\Colors.class
 me\endureblackout\UtopiaGear\IconMenu$1.class
+me\endureblackout\UtopiaGear\FullDrawHandler.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticleProperty.class
 me\endureblackout\UtopiaGear\UtopiaArmor.class
 me\endureblackout\UtopiaGear\IconMenu$OptionClickEvent.class

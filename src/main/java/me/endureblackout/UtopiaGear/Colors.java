@@ -3,17 +3,17 @@ package me.endureblackout.UtopiaGear;
 import org.bukkit.Color;
 
 public class Colors {
-	
+
 	public String color = "";
-	
+
 	public Colors(String color) {
 		this.color = color;
 	}
-	
+
 	public Color getColor() {
-		if(color.equalsIgnoreCase("Aqua")) {
+		if (color.equalsIgnoreCase("Aqua")) {
 			return Color.AQUA;
-		} else if(color.equalsIgnoreCase("Black")) {
+		} else if (color.equalsIgnoreCase("Black")) {
 			return Color.BLACK;
 		} else if (color.equalsIgnoreCase("Blue")) {
 			return Color.BLUE;
@@ -50,7 +50,7 @@ public class Colors {
 		} else if (color.equalsIgnoreCase("light blue")) {
 			return Color.fromRGB(30, 144, 255);
 		}
-		
+
 		return null;
 	}
 }

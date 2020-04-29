@@ -56,7 +56,7 @@ public class ShopGUIManager {
 		tunicMeta.setDisplayName(ChatColor.RED + "Armor");
 		tunic.setItemMeta(tunicMeta);
 
-		mainGUI = Bukkit.createInventory(null, 27, ChatColor.RED + "Utopia Gear");
+		mainGUI = Bukkit.createInventory(null, 27, ChatColor.DARK_BLUE + "Mystical Gear");
 		mainGUI.setItem(11, sword);
 		mainGUI.setItem(15, tunic);
 	}

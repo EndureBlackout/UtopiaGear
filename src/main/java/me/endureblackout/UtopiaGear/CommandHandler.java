@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,8 +27,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CommandHandler implements CommandExecutor, Listener {
 
-	UtopiaGear			core;
-	YamlConfiguration	config;
+	UtopiaGear core;
+	YamlConfiguration config;
 
 	public CommandHandler(UtopiaGear instance, YamlConfiguration config) {
 		this.core = instance;
@@ -40,18 +39,38 @@ public class CommandHandler implements CommandExecutor, Listener {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 
-			if (cmd.getName().equalsIgnoreCase("ug")) {
+			if (cmd.getName().equalsIgnoreCase("mg")) {
 				if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("shop")) {
 						p.openInventory(ShopGUIManager.mainGUI);
 					}
-				}
-				if (args.length == 2) {
-					if (args.length == 1) {
-						if (args[0].equalsIgnoreCase("reload")) {
-							core.reloadConfig();
-							core.saveConfig();
-						}
+					if (args[0].equalsIgnoreCase("reload")) {
+						core.reloadConfig();
+						p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "UtopiaGear" + ChatColor.GRAY + "] "
+								+ ChatColor.GREEN + "Config reloaded!");
+					}
+					if (args[0].equalsIgnoreCase("token") && p.hasPermission("utopiagear.admin")) {
+						ItemStack tokens = new ItemStack(Material.getMaterial(config.getString("Tokens.Item")));
+						tokens.setAmount(64);
+
+						ItemMeta tokenMeta = tokens.getItemMeta();
+
+						tokenMeta.setDisplayName(
+								ChatColor.translateAlternateColorCodes('&', config.getString("Tokens.Name")));
+
+						List<String> lore = config.getStringList("Tokens.Lore");
+						List<String> loreList = new ArrayList<String>();
+
+						if (!(lore.size() == 0) && !(lore == null))
+							for (int i = 0; i < lore.size(); i++) {
+								loreList.add(ChatColor.translateAlternateColorCodes('&', lore.get(i)));
+							}
+
+						tokenMeta.setLore(loreList);
+
+						tokens.setItemMeta(tokenMeta);
+
+						p.getInventory().addItem(tokens);
 					}
 				}
 			}
@@ -68,7 +87,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 		Set<String> gear = gearSec.getKeys(false);
 
 		if (!(e.getCurrentItem() == null) && !e.getCurrentItem().getType().equals(Material.AIR)) {
-			if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("Utopia Gear")) {
+			if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("Mystical Gear")) {
 				e.setCancelled(true);
 
 				if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("armor")) {
@@ -81,7 +100,8 @@ public class CommandHandler implements CommandExecutor, Listener {
 							p.openInventory(ShopGUIManager.armorGUI);
 						}
 					}.runTaskLater(core, 1);
-				} else if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("weapons")) {
+				} else if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName())
+						.equalsIgnoreCase("weapons")) {
 					p.closeInventory();
 
 					new BukkitRunnable() {
@@ -92,6 +112,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 					}.runTaskLater(core, 1);
 				}
 			} else if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("Armor")) {
+				e.setCancelled(true);
 				for (String k : gear) {
 					ItemStack clickedItem = e.getCurrentItem();
 
@@ -109,7 +130,6 @@ public class CommandHandler implements CommandExecutor, Listener {
 						}.runTaskLater(this.core, 1);
 					}
 				}
-				e.setCancelled(true);
 			} else if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("Weapons")) {
 				ItemStack clickedItem = e.getCurrentItem();
 
@@ -117,21 +137,30 @@ public class CommandHandler implements CommandExecutor, Listener {
 				Set<String> weap = weapSec.getKeys(false);
 
 				for (String k : weap) {
+
 					ConfigurationSection weapon = weapSec.getConfigurationSection(k);
 
 					UtopiaWeapon createdWeap = new UtopiaWeapon(config);
 					createdWeap.setWeapon(k);
 
 					if (clickedItem.equals(createdWeap.createWeapon(clickedItem.getType().name()))) {
-						if (checkTokens(p, weapon.getInt("Price"))) {
+						e.setCancelled(true);
 
-							p.getInventory().addItem(createdWeap.createWeapon(weapon.getString("Type")));
-							p.closeInventory();
-							p.sendMessage(ChatColor.GREEN + "You bought a " + ChatColor.translateAlternateColorCodes('&', weapon.getString("Name")));
-						}
+						new BukkitRunnable() {
+							public void run() {
+								p.closeInventory();
+
+								if (checkTokens(p, weapon.getInt("Price"))) {
+									p.getInventory().addItem(createdWeap.createWeapon(weapon.getString("Type")));
+									p.sendMessage(ChatColor.GREEN + "You bought a "
+											+ ChatColor.translateAlternateColorCodes('&', weapon.getString("Name")));
+								} else {
+									p.sendMessage(ChatColor.RED + "Sorry, but you don't have enough to buy that!");
+								}
+							}
+						}.runTaskLater(this.core, 1);
 					}
 				}
-				e.setCancelled(true);
 			} else {
 				for (String k : gear) {
 					ConfigurationSection armor = gearSec.getConfigurationSection(k);
@@ -141,20 +170,30 @@ public class CommandHandler implements CommandExecutor, Listener {
 
 					ItemStack clickedItem = e.getCurrentItem();
 
-					if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', armor.getString("Name")))) {
+					if (e.getView().getTitle()
+							.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', armor.getString("Name")))) {
 						if (clickedItem.equals(createdArmor.createArmor(clickedItem.getType().name()))) {
-							if (checkTokens(p, armor.getInt("price"))) {
-								ItemStack armorItem = createdArmor.createArmor(clickedItem.getType().name());
-								LeatherArmorMeta armorMeta = (LeatherArmorMeta) armorItem.getItemMeta();
-								armorMeta.setUnbreakable(true);
-								armorItem.setItemMeta(armorMeta);
+							e.setCancelled(true);
 
-								p.getInventory().addItem(armorItem);
-								p.closeInventory();
-								p.sendMessage(ChatColor.GREEN + "You bought " + ChatColor.translateAlternateColorCodes('&', armor.getString("Name")));
-							}
+							new BukkitRunnable() {
+								public void run() {
+									p.closeInventory();
+
+									if (checkTokens(p, armor.getInt("price"))) {
+										ItemStack armorItem = createdArmor.createArmor(clickedItem.getType().name());
+										LeatherArmorMeta armorMeta = (LeatherArmorMeta) armorItem.getItemMeta();
+										armorMeta.setUnbreakable(true);
+										armorItem.setItemMeta(armorMeta);
+
+										p.getInventory().addItem(armorItem);
+										p.sendMessage(ChatColor.GREEN + "You bought "
+												+ ChatColor.translateAlternateColorCodes('&', armor.getString("Name")));
+									} else {
+										p.sendMessage(ChatColor.RED + "Sorry, but you don't have enough to buy that!");
+									}
+								}
+							}.runTaskLater(this.core, 1);
 						}
-						e.setCancelled(true);
 					}
 				}
 			}
@@ -258,7 +297,6 @@ public class CommandHandler implements CommandExecutor, Listener {
 		p.getInventory().addItem(item);
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean checkTokens(Player p, Integer price) {
 		ConfigurationSection tokens = config.getConfigurationSection("Tokens");
 		PlayerInventory pInv = p.getInventory();
@@ -290,7 +328,11 @@ public class CommandHandler implements CommandExecutor, Listener {
 				return true;
 			}
 		} else {
-			p.sendMessage(ChatColor.RED + "Your inventory was full and we couldn't give you the item. You were not charged!");
+			p.sendMessage(
+					ChatColor.RED + "Your inventory was full and we couldn't give you the item. You were not charged!");
+			p.closeInventory();
+			p.closeInventory();
+			p.closeInventory();
 			p.closeInventory();
 			return false;
 		}

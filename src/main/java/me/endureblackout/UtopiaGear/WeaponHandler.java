@@ -18,8 +18,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class WeaponHandler implements Listener {
 
-	UtopiaGear			core;
-	YamlConfiguration	config;
+	UtopiaGear core;
+	YamlConfiguration config;
 
 	public WeaponHandler(UtopiaGear core, YamlConfiguration config) {
 		this.core = core;
@@ -34,19 +34,23 @@ public class WeaponHandler implements Listener {
 
 			ConfigurationSection weapSec = config.getConfigurationSection("Weapons");
 			Set<String> weaps = weapSec.getKeys(false);
-			
+
 			UtopiaWeapon utopiaWeap = new UtopiaWeapon(config);
 
 			for (String k : weaps) {
 				ConfigurationSection weap = weapSec.getConfigurationSection(k);
 				
-				utopiaWeap.setWeapon(k);
-				ItemStack weaponStack = utopiaWeap.createWeapon(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
-				ItemStack holdingWeap = p.getInventory().getItemInMainHand();
-				
-				
-				if (!(p.getInventory().getItemInMainHand().getType().equals(Material.AIR))) {
-					if (holdingWeap.getItemMeta().getDisplayName().equalsIgnoreCase(weaponStack.getItemMeta().getDisplayName())) {
+				if (!(p.getInventory().getItemInMainHand().getType().equals(Material.AIR))
+						&& !(p.getInventory().getItemInMainHand().getType() == null)) {
+
+					utopiaWeap.setWeapon(k);
+					ItemStack weaponStack = utopiaWeap
+							.createWeapon(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
+
+					ItemStack holdingWeap = p.getInventory().getItemInMainHand();
+
+					if (holdingWeap.getItemMeta().getDisplayName()
+							.equalsIgnoreCase(weaponStack.getItemMeta().getDisplayName())) {
 						if (holdingWeap.getItemMeta().getLore().equals(weaponStack.getItemMeta().getLore())) {
 							List<String> goodeffects = weap.getStringList("goodeffects");
 							List<String> badeffects = weap.getStringList("badeffects");
@@ -61,9 +65,13 @@ public class WeaponHandler implements Listener {
 									int level = Integer.parseInt(list[3]);
 
 									if (Math.random() <= chance) {
-										p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(effect.toUpperCase()), duration * 20, level));
-										p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "UtopiaGear" + ChatColor.GRAY + "] " + ChatColor.GREEN + "You have received " + ChatColor.WHITE + effect + " " + (level + 1) + ChatColor.GREEN + " for "
-											+ ChatColor.GREEN + duration);
+										p.addPotionEffect(
+												new PotionEffect(PotionEffectType.getByName(effect.toUpperCase()),
+														duration * 20, level));
+										p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "UtopiaGear"
+												+ ChatColor.GRAY + "] " + ChatColor.GREEN + "You have received "
+												+ ChatColor.WHITE + effect + " " + (level + 1) + ChatColor.GREEN
+												+ " for " + ChatColor.GREEN + duration);
 									}
 								}
 							}
@@ -78,11 +86,15 @@ public class WeaponHandler implements Listener {
 									int level = Integer.parseInt(list[3]);
 
 									if (Math.random() <= chance) {
-										d.addPotionEffect(new PotionEffect(PotionEffectType.getByName(effect.toUpperCase()), duration * 20, level));
+										d.addPotionEffect(
+												new PotionEffect(PotionEffectType.getByName(effect.toUpperCase()),
+														duration * 20, level));
 
 										if (d instanceof Player) {
-											d.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "UtopiaGear" + ChatColor.GRAY + "] " + ChatColor.GREEN + "You have received " + ChatColor.WHITE + effect + " " + (level + 1) + ChatColor.GREEN + " for "
-												+ ChatColor.GREEN + duration);
+											d.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "UtopiaGear"
+													+ ChatColor.GRAY + "] " + ChatColor.GREEN + "You have received "
+													+ ChatColor.WHITE + effect + " " + (level + 1) + ChatColor.GREEN
+													+ " for " + ChatColor.GREEN + duration);
 										}
 									}
 								}
