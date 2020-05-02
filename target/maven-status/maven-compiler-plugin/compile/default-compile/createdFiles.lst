@@ -1,5 +1,6 @@
 me\endureblackout\UtopiaGear\GearHandler.class
 me\endureblackout\UtopiaGear\CommandHandler$2.class
+me\endureblackout\UtopiaGear\CommandHandler$7.class
 me\endureblackout\UtopiaGear\WeaponHandler.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticleDataException.class
 me\endureblackout\UtopiaGear\UtopiaWeapon.class
@@ -34,4 +35,5 @@ me\endureblackout\UtopiaGear\ParticleEffect$ParticleColor.class
 me\endureblackout\UtopiaGear\ShopGUIManager.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticleData.class
 me\endureblackout\UtopiaGear\ParticleEffect$ParticlePacket$PacketSendingException.class
+me\endureblackout\UtopiaGear\CommandHandler$6.class
 me\endureblackout\UtopiaGear\ReflectionUtils.class

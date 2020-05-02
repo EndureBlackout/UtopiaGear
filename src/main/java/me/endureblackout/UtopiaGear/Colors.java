@@ -17,13 +17,13 @@ public class Colors {
 			return Color.BLACK;
 		} else if (color.equalsIgnoreCase("Blue")) {
 			return Color.BLUE;
-		} else if (color.equalsIgnoreCase("FUCHSIA")) {
+		} else if (color.equalsIgnoreCase("Fuchsia")) {
 			return Color.FUCHSIA;
 		} else if (color.equalsIgnoreCase("Gray")) {
 			return Color.GRAY;
 		} else if (color.equalsIgnoreCase("Green")) {
 			return Color.GREEN;
-		} else if (color.equalsIgnoreCase("lime")) {
+		} else if (color.equalsIgnoreCase("Lime")) {
 			return Color.LIME;
 		} else if (color.equalsIgnoreCase("Maroon")) {
 			return Color.MAROON;
@@ -35,20 +35,22 @@ public class Colors {
 			return Color.ORANGE;
 		} else if (color.equalsIgnoreCase("Purple")) {
 			return Color.PURPLE;
-		} else if (color.equalsIgnoreCase("red")) {
+		} else if (color.equalsIgnoreCase("Red")) {
 			return Color.RED;
-		} else if (color.equalsIgnoreCase("silver")) {
+		} else if (color.equalsIgnoreCase("Silver")) {
 			return Color.SILVER;
-		} else if (color.equalsIgnoreCase("teal")) {
+		} else if (color.equalsIgnoreCase("Teal")) {
 			return Color.TEAL;
-		} else if (color.equalsIgnoreCase("white")) {
+		} else if (color.equalsIgnoreCase("White")) {
 			return Color.WHITE;
-		} else if (color.equalsIgnoreCase("yellow")) {
+		} else if (color.equalsIgnoreCase("Yellow")) {
 			return Color.YELLOW;
-		} else if (color.equalsIgnoreCase("pink")) {
+		} else if (color.equalsIgnoreCase("Pink")) {
 			return Color.fromRGB(255, 192, 203);
-		} else if (color.equalsIgnoreCase("light blue")) {
+		} else if (color.equalsIgnoreCase("Light Blue")) {
 			return Color.fromRGB(30, 144, 255);
+		} else if (color.equalsIgnoreCase("BlueViolet")) {
+			return Color.fromRGB(138, 43, 226);
 		}
 
 		return null;

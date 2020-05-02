@@ -25,6 +25,7 @@ public class ShopGUIManager {
 	public static Inventory						armorGUI;
 	public static HashMap<String, Inventory>	specArmorGUI	= new HashMap<String, Inventory>();
 	public static Inventory						weaponGUI;
+	public static Inventory						hiddenGUI;
 
 	public ShopGUIManager(YamlConfiguration config) {
 		this.config = config;
@@ -40,6 +41,7 @@ public class ShopGUIManager {
 		}
 
 		setupWeaponGUI();
+		setupHiddenGUI();
 	}
 
 	public void setupMainGUI() {
@@ -90,14 +92,12 @@ public class ShopGUIManager {
 
 		UtopiaArmor armorObject = new UtopiaArmor(this.config);
 		armorObject.setArmor(name);
-
-		if (!(armorObject.hidden)) {
-			specArmorGUI.put(name, Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', gearSec.getConfigurationSection(name).getString("Name"))));
-			specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_HELMET.name()));
-			specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_CHESTPLATE.name()));
-			specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_LEGGINGS.name()));
-			specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_BOOTS.name()));
-		}
+		
+		specArmorGUI.put(name, Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', gearSec.getConfigurationSection(name).getString("Name"))));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_HELMET.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_CHESTPLATE.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_LEGGINGS.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_BOOTS.name()));
 	}
 
 	public void setupWeaponGUI() {
@@ -116,6 +116,62 @@ public class ShopGUIManager {
 			if (!weaponObject.isHidden()) {
 				weaponGUI.setItem(weaponGUI.firstEmpty(), weapon);
 			}
+		}
+	}
+	
+	public List<UtopiaArmor> getHiddenArmor() {
+		List<UtopiaArmor> armorNames = new ArrayList<UtopiaArmor>();
+		
+		ConfigurationSection gearSec = config.getConfigurationSection("Gear");
+		Set<String> gear = gearSec.getKeys(false);
+		
+		for(String k : gear) {
+			UtopiaArmor armorObject = new UtopiaArmor(this.config);
+			
+			armorObject.setArmor(k);
+			
+			if(armorObject.hidden) {
+				armorNames.add(armorObject);
+			}
+		}
+		
+		return armorNames;
+	}
+	
+	public List<UtopiaWeapon> getHiddenWeapons() {
+		List<UtopiaWeapon> weapons = new ArrayList<UtopiaWeapon>();
+		
+		ConfigurationSection gearSec = config.getConfigurationSection("Weapons");
+		Set<String> gear = gearSec.getKeys(false);
+		
+		for(String k : gear) {
+			UtopiaWeapon weaponObject = new UtopiaWeapon(this.config);
+			weaponObject.setWeapon(k);
+			
+			if(weaponObject.isHidden()) {
+				weapons.add(weaponObject);
+			}
+		}
+		
+		return weapons;
+	}
+	
+	public void setupHiddenGUI() {
+		hiddenGUI = Bukkit.createInventory(null, 27, ChatColor.DARK_RED + "HIDDEN MENU");
+		
+		List<UtopiaArmor> armor = getHiddenArmor();
+		List<UtopiaWeapon> weapons = getHiddenWeapons();
+		
+		for(UtopiaArmor k : armor) {
+			ItemStack newArmor = k.createArmor(Material.LEATHER_CHESTPLATE.name());
+			
+			hiddenGUI.addItem(newArmor);
+		}
+		
+		for(UtopiaWeapon k : weapons) {
+			ItemStack weapon = k.createWeapon(k.getType());
+			
+			hiddenGUI.addItem(weapon);
 		}
 	}
 }

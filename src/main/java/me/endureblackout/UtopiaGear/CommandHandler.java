@@ -46,8 +46,11 @@ public class CommandHandler implements CommandExecutor, Listener {
 					}
 					if (args[0].equalsIgnoreCase("reload")) {
 						core.reloadConfig();
-						p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "UtopiaGear" + ChatColor.GRAY + "] "
+						p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "MysticalGear" + ChatColor.GRAY + "] "
 								+ ChatColor.GREEN + "Config reloaded!");
+					}
+					if (args[0].equalsIgnoreCase("hidden") && p.hasPermission("utopiagear.admin")) {
+						p.openInventory(ShopGUIManager.hiddenGUI);
 					}
 					if (args[0].equalsIgnoreCase("token") && p.hasPermission("utopiagear.admin")) {
 						ItemStack tokens = new ItemStack(Material.getMaterial(config.getString("Tokens.Item")));
@@ -128,6 +131,58 @@ public class CommandHandler implements CommandExecutor, Listener {
 								p.openInventory(ShopGUIManager.specArmorGUI.get(k));
 							}
 						}.runTaskLater(this.core, 1);
+					}
+				}
+			} else if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("HIDDEN MENU")) {
+				e.setCancelled(true);
+				if (e.getCurrentItem().getType().equals(Material.LEATHER_CHESTPLATE)) {
+					for (String k : gear) {
+						ItemStack clickedItem = e.getCurrentItem();
+
+						UtopiaArmor createdArmor = new UtopiaArmor(config);
+						createdArmor.setArmor(k);
+
+						if (clickedItem.equals(createdArmor.createArmor(clickedItem.getType().name()))) {
+							p.closeInventory();
+
+							new BukkitRunnable() {
+
+								public void run() {
+									p.openInventory(ShopGUIManager.specArmorGUI.get(k));
+								}
+							}.runTaskLater(this.core, 1);
+						}
+					}
+				} else {
+					ItemStack clickedItem = e.getCurrentItem();
+
+					ConfigurationSection weapSec = config.getConfigurationSection("Weapons");
+					Set<String> weap = weapSec.getKeys(false);
+
+					for (String k : weap) {
+
+						ConfigurationSection weapon = weapSec.getConfigurationSection(k);
+
+						UtopiaWeapon createdWeap = new UtopiaWeapon(config);
+						createdWeap.setWeapon(k);
+
+						if (clickedItem.equals(createdWeap.createWeapon(clickedItem.getType().name()))) {
+							e.setCancelled(true);
+
+							new BukkitRunnable() {
+								public void run() {
+									p.closeInventory();
+
+									if (checkTokens(p, weapon.getInt("Price"))) {
+										p.getInventory().addItem(createdWeap.createWeapon(weapon.getString("Type")));
+										p.sendMessage(ChatColor.GREEN + "You bought a " + ChatColor
+												.translateAlternateColorCodes('&', weapon.getString("Name")));
+									} else {
+										p.sendMessage(ChatColor.RED + "Sorry, but you don't have enough to buy that!");
+									}
+								}
+							}.runTaskLater(this.core, 1);
+						}
 					}
 				}
 			} else if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("Weapons")) {
@@ -259,6 +314,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 		return chest;
 	}
 
+	@SuppressWarnings("deprecation")
 	public ItemStack weaponOption(String type, String name, String lore, List<String> enchants) {
 		ItemStack weapon = new ItemStack(Material.getMaterial(type.toUpperCase()));
 		ItemMeta weapMeta = weapon.getItemMeta();
