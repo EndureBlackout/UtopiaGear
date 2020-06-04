@@ -81,4 +81,27 @@ public class UtopiaArmor {
 
 		return armorPiece;
 	}
+	
+	public ItemStack createShopItem(String piece) {
+		ItemStack armorPiece = new ItemStack(Material.getMaterial(piece));
+		LeatherArmorMeta armorMeta = (LeatherArmorMeta) armorPiece.getItemMeta();
+
+		armorMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', getName()));
+		
+		ArrayList<String> loreList = new ArrayList<String>();
+
+		if (!(lore.size() == 0) && !(lore == null)) {
+			for (int i = 0; i < lore.size(); i++) {
+				loreList.add(ChatColor.translateAlternateColorCodes('&', lore.get(i)));
+			}
+		}
+		
+		loreList.add(ChatColor.GOLD + "Price: " + getPrice());
+
+		armorMeta.setLore(loreList);
+		armorMeta.setColor(getColor());
+		armorPiece.setItemMeta(armorMeta);
+
+		return armorPiece;
+	}
 }

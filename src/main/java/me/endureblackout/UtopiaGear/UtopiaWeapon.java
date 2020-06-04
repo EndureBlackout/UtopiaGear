@@ -96,4 +96,33 @@ public class UtopiaWeapon {
 		weapon.setItemMeta(weaponMeta);
 		return weapon;
 	}
+	
+	public ItemStack createShopWeapon(String type) {
+		ItemStack weapon = new ItemStack(Material.getMaterial(getType().toUpperCase()));
+		ItemMeta weaponMeta = weapon.getItemMeta();
+
+		weaponMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', getName()));
+
+		ArrayList<String> loreList = new ArrayList<String>();
+
+		if (!(lore.size() == 0) && !(lore == null)) {
+			for (int i = 0; i < lore.size(); i++) {
+				loreList.add(ChatColor.translateAlternateColorCodes('&', lore.get(i)));
+			}
+		}
+		
+		loreList.add(ChatColor.GOLD + "Price: " + getPrice());
+
+		for (int i = 0; i < enchants.size(); i++) {
+			String[] enchantString = enchants.get(i).split(",");
+
+			String enchant = enchantString[0];
+			int level = Integer.parseInt(enchantString[1]);
+			weaponMeta.addEnchant(Enchantment.getByName(enchant.toUpperCase()), level, true);
+		}
+
+		weaponMeta.setLore(loreList);
+		weapon.setItemMeta(weaponMeta);
+		return weapon;
+	}
 }

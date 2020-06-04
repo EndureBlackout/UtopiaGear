@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="me.endureblackout.UtopiaGear.AppTest" time="0.016" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="me.endureblackout.UtopiaGear.AppTest" time="0.012" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\RedHat\java-1.8.0-openjdk-1.8.0.242-3\jre\bin"/>
@@ -27,7 +27,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="D:\Bukkit Plugins\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf2627931894911437606.tmp"/>
+    <property name="classworlds.conf" value="D:\Bukkit Plugins\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf3854613023542294746.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\RedHat\java-1.8.0-openjdk-1.8.0.242-3\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_251/bin/server;C:/Program Files/Java/jre1.8.0_251/bin;C:/Program Files/Java/jre1.8.0_251/lib/amd64;%JAVA_PATH%\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;D:\Putty\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;D:\Git\cmd;C:\Users\Student\AppData\Local\Programs\Python\Python37-32;C:\metasploit-framework\bin\;C:\Go\bin;C:\Program Files (x86)\apache-maven-3.6.3\bin;C:\Program Files\RedHat\java-1.8.0-openjdk-1.8.0.242-3\bin;C:\Program Files\RedHat\java-1.8.0-openjdk-1.8.0.242-3\jre\bin;C:\Program Files (x86)\Java\java-se-8u41-ri\bin;C:\Users\Student\AppData\Local\Programs\Python\Python38-32\Scripts\;C:\Users\Student\AppData\Local\Programs\Python\Python38-32\;C:\Python27\Scripts;C:\Python27;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Student\AppData\Local\GitHubDesktop\bin;D:\Microsoft VS Code\bin;C:\Users\Student\AppData\Local\Microsoft\WindowsApps;C:\Users\Student\go\bin;;D:\eclipse 2018\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -61,5 +61,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="me.endureblackout.UtopiaGear.AppTest" name="testApp" time="0.016"/>
+  <testcase classname="me.endureblackout.UtopiaGear.AppTest" name="testApp" time="0.012"/>
 </testsuite>

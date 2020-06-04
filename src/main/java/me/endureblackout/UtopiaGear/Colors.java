@@ -51,6 +51,10 @@ public class Colors {
 			return Color.fromRGB(30, 144, 255);
 		} else if (color.equalsIgnoreCase("BlueViolet")) {
 			return Color.fromRGB(138, 43, 226);
+		} else if (color.equalsIgnoreCase("Steel Blue")) {
+			return Color.fromRGB(240, 248, 255);
+		} else if (color.equalsIgnoreCase("Gabe")) {
+			return Color.fromRGB(37, 162, 138);
 		}
 
 		return null;

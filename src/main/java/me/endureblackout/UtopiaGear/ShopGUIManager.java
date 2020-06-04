@@ -76,9 +76,11 @@ public class ShopGUIManager {
 			armorObject.setArmor(k);
 
 			if (!(armorObject.hidden)) {
-				armor.add(armorObject.createArmor(Material.LEATHER_CHESTPLATE.name()));
+				armor.add(armorObject.createShopItem(Material.LEATHER_CHESTPLATE.name()));
 			}
 		}
+		
+		
 
 		for (int i = 0; i < armor.size(); i++) {
 			ItemStack piece = armor.get(i);
@@ -94,10 +96,10 @@ public class ShopGUIManager {
 		armorObject.setArmor(name);
 		
 		specArmorGUI.put(name, Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', gearSec.getConfigurationSection(name).getString("Name"))));
-		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_HELMET.name()));
-		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_CHESTPLATE.name()));
-		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_LEGGINGS.name()));
-		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createArmor(Material.LEATHER_BOOTS.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createShopItem(Material.LEATHER_HELMET.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createShopItem(Material.LEATHER_CHESTPLATE.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createShopItem(Material.LEATHER_LEGGINGS.name()));
+		specArmorGUI.get(name).setItem(specArmorGUI.get(name).firstEmpty(), armorObject.createShopItem(Material.LEATHER_BOOTS.name()));
 	}
 
 	public void setupWeaponGUI() {
@@ -111,7 +113,7 @@ public class ShopGUIManager {
 
 			weaponObject.setWeapon(k);
 
-			ItemStack weapon = weaponObject.createWeapon(weaponObject.getType());
+			ItemStack weapon = weaponObject.createShopWeapon(weaponObject.getType());
 
 			if (!weaponObject.isHidden()) {
 				weaponGUI.setItem(weaponGUI.firstEmpty(), weapon);
@@ -163,13 +165,13 @@ public class ShopGUIManager {
 		List<UtopiaWeapon> weapons = getHiddenWeapons();
 		
 		for(UtopiaArmor k : armor) {
-			ItemStack newArmor = k.createArmor(Material.LEATHER_CHESTPLATE.name());
+			ItemStack newArmor = k.createShopItem(Material.LEATHER_CHESTPLATE.name());
 			
 			hiddenGUI.addItem(newArmor);
 		}
 		
 		for(UtopiaWeapon k : weapons) {
-			ItemStack weapon = k.createWeapon(k.getType());
+			ItemStack weapon = k.createShopWeapon(k.getType());
 			
 			hiddenGUI.addItem(weapon);
 		}

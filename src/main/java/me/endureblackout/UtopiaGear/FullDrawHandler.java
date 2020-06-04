@@ -15,11 +15,11 @@ public class FullDrawHandler implements Listener {
 	
 	@EventHandler
 	public void onShootEvent(EntityShootBowEvent e) {
-		if(e.getForce() != 1.0 && e.getEntity() instanceof Player) {
+		if(e.getForce() != 0.75 && e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
 			
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.RED + "Bow must be pulled fully back before you can shoot!");
+			p.sendMessage(ChatColor.RED + "Bow must be pulled back at least 75% before you can shoot!");
 		}
 	}
 }

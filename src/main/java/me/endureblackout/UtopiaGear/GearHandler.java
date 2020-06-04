@@ -1,7 +1,6 @@
 
 package me.endureblackout.UtopiaGear;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -14,6 +13,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -28,7 +28,6 @@ import org.bukkit.potion.PotionEffectType;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
-import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -80,6 +79,128 @@ public class GearHandler implements Listener {
 				// int high = 0;
 				// int low = 0;
 				double reduction = 0;
+				if (e.getCause() == DamageCause.PROJECTILE && e.getDamager() instanceof Trident) {
+					Trident trident = (Trident) e.getDamager();
+
+					if (trident.getShooter() instanceof Player) {
+						Player shooter = (Player) trident.getShooter();
+						PlayerInventory sInv = shooter.getInventory();
+
+						ItemStack[] ds = sInv.getArmorContents();
+
+						for (int i = 0; i < ds.length; i++) {
+							if (!(ds[i] == null) && !(ds[i].getType().equals(Material.AIR))) {
+								for (String k : gear) {
+									UtopiaArmor armor = new UtopiaArmor(config);
+									armor.setArmor(k);
+
+									if (ds[i].getType().equals(Material.LEATHER_BOOTS)
+											|| ds[i].getType().equals(Material.LEATHER_CHESTPLATE)
+											|| ds[i].getType().equals(Material.LEATHER_HELMET)
+											|| ds[i].getType().equals(Material.LEATHER_LEGGINGS)) {
+
+										ItemStack armorStack = armor.createArmor(ds[i].getType().name());
+										ItemStack wearingArmor = ds[i];
+
+										if (wearingArmor.getItemMeta().getLore()
+												.equals(armorStack.getItemMeta().getLore())) {
+											List<String> goodEffects = gearSec.getConfigurationSection(k)
+													.getStringList("goodeffects");
+											List<String> badEffects = gearSec.getConfigurationSection(k)
+													.getStringList("badeffects");
+
+											if (!(goodEffects.size() == 0)) {
+												for (String t : goodEffects) {
+													String[] list = t.split(",");
+
+													String effect = list[0];
+													int duration = Integer.parseInt(list[2]);
+													double chance = Double.parseDouble(list[1]);
+													int level = Integer.parseInt(list[3]);
+
+													if (Math.random() <= chance) {
+														shooter.addPotionEffect(new PotionEffect(
+																PotionEffectType.getByName(effect.toUpperCase()),
+																duration * 20, level));
+														shooter.sendMessage(
+																ChatColor.GRAY + "[" + ChatColor.BLUE + "MysticalGear"
+																		+ ChatColor.GRAY + "] " + ChatColor.GREEN
+																		+ "You have received " + ChatColor.WHITE
+																		+ effect + " " + (level + 1) + ChatColor.GREEN
+																		+ " for " + ChatColor.GREEN + duration);
+
+													}
+												}
+											}
+
+											if (!(badEffects.size() == 0)) {
+												for (String t : badEffects) {
+													String[] list = t.split(",");
+
+													String effect = list[0];
+													int duration = Integer.parseInt(list[2]);
+													double chance = Double.parseDouble(list[1]);
+													int level = Integer.parseInt(list[3]);
+
+													if (Math.random() <= chance) {
+														p.addPotionEffect(new PotionEffect(
+																PotionEffectType.getByName(effect.toUpperCase()),
+																duration * 20, level));
+														p.sendMessage(
+																ChatColor.GRAY + "[" + ChatColor.BLUE + "MysticalaGear"
+																		+ ChatColor.GRAY + "] " + ChatColor.GREEN
+																		+ "You have received " + ChatColor.WHITE
+																		+ effect + " " + (level + 1) + ChatColor.GREEN
+																		+ " for " + ChatColor.GREEN + duration);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+						for (int i = 0; i < is.length; i++) {
+							if (!(is[i] == null) && !(is[i].getType().equals(Material.AIR))) {
+								for (String k : gear) {
+									UtopiaArmor armor = new UtopiaArmor(config);
+									armor.setArmor(k);
+
+									if (is[i].getType().equals(Material.LEATHER_BOOTS)
+											|| is[i].getType().equals(Material.LEATHER_CHESTPLATE)
+											|| is[i].getType().equals(Material.LEATHER_HELMET)
+											|| is[i].getType().equals(Material.LEATHER_LEGGINGS)) {
+										ItemStack armorStack = armor.createArmor(is[i].getType().name());
+										ItemStack wearingArmor = is[i];
+
+										double pvpHighest = gearSec.getDouble(k + ".pvphighest");
+										double pvpLowest = gearSec.getDouble(k + ".pvplowest");
+
+										Random rand = new Random();
+										double random = rand.nextDouble();
+										double reductNum = pvpLowest + (random * (pvpHighest - pvpLowest));
+
+										if (wearingArmor.getItemMeta().getLore()
+												.equals(armorStack.getItemMeta().getLore())) {
+											if (is[i].getType().equals(Material.LEATHER_HELMET)) {
+												reduction += reductNum + 0.12;
+											} else if (is[i].getType().equals(Material.LEATHER_CHESTPLATE)) {
+												reduction += reductNum + 0.22;
+											} else if (is[i].getType().equals(Material.LEATHER_LEGGINGS)) {
+												reduction += reductNum + 0.17;
+											} else if (is[i].getType().equals(Material.LEATHER_BOOTS)) {
+												reduction += reductNum + 0.12;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					e.setDamage(calcPvpDamage(reduction, damage));
+					return;
+				}
 
 				if (e.getCause() == DamageCause.PROJECTILE && e.getDamager() instanceof Arrow) {
 					Arrow arrow = (Arrow) e.getDamager();
@@ -187,16 +308,12 @@ public class GearHandler implements Listener {
 												.equals(armorStack.getItemMeta().getLore())) {
 											if (is[i].getType().equals(Material.LEATHER_HELMET)) {
 												reduction += reductNum + 0.12;
-												System.out.println("Helm");
 											} else if (is[i].getType().equals(Material.LEATHER_CHESTPLATE)) {
 												reduction += reductNum + 0.22;
-												System.out.println("Chest");
 											} else if (is[i].getType().equals(Material.LEATHER_LEGGINGS)) {
 												reduction += reductNum + 0.17;
-												System.out.println("Leggings");
 											} else if (is[i].getType().equals(Material.LEATHER_BOOTS)) {
 												reduction += reductNum + 0.12;
-												System.out.println("Boots");
 											}
 										}
 									}
@@ -302,7 +419,6 @@ public class GearHandler implements Listener {
 								Random rand = new Random();
 								double random = rand.nextDouble();
 								float reductNum = (float) (pvpLowest + (random * (pvpHighest - pvpLowest)));
-								System.out.println("Reduct Num: " + reductNum);
 
 								if (wearingArmor.getItemMeta().getLore().equals(armorStack.getItemMeta().getLore())) {
 
@@ -316,8 +432,6 @@ public class GearHandler implements Listener {
 										reduction += reductNum + 0.12;
 									}
 								}
-
-								System.out.println("Reduction: " + reduction);
 							}
 						}
 					}
@@ -533,7 +647,6 @@ public class GearHandler implements Listener {
 		if (!(e.getCause() == DamageCause.ENTITY_ATTACK) && !(e.getCause() == DamageCause.PROJECTILE))
 
 		{
-			System.out.println("Umm... something is not quite right.");
 			if (e.getEntity() instanceof Player) {
 
 				Player p = (Player) e.getEntity();
@@ -604,8 +717,6 @@ public class GearHandler implements Listener {
 		// return damage;
 		double amountReduce = (damage * reduction);
 		damage -= amountReduce;
-		System.out.println(reduction);
-		System.out.println(damage);
 		return damage;
 	}
 

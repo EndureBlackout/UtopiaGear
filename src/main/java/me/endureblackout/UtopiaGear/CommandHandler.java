@@ -41,6 +41,12 @@ public class CommandHandler implements CommandExecutor, Listener {
 
 			if (cmd.getName().equalsIgnoreCase("mg")) {
 				if (args.length == 1) {
+					if(args[0].equalsIgnoreCase("help")) {
+						p.sendMessage(ChatColor.GREEN + "------------" + ChatColor.GRAY + "[" + ChatColor.BLUE + "MysticalGear" + ChatColor.GRAY + "]" + ChatColor.GREEN + "------------");
+						p.sendMessage(ChatColor.GREEN + "/mg help - This help message");
+						p.sendMessage(ChatColor.GREEN + "/mg shop - Open the shop to purchase Mystical Gear and Weapons.");
+						
+					}
 					if (args[0].equalsIgnoreCase("shop")) {
 						p.openInventory(ShopGUIManager.mainGUI);
 					}
@@ -122,7 +128,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 					UtopiaArmor createdArmor = new UtopiaArmor(config);
 					createdArmor.setArmor(k);
 
-					if (clickedItem.equals(createdArmor.createArmor(clickedItem.getType().name()))) {
+					if (clickedItem.equals(createdArmor.createShopItem(clickedItem.getType().name()))) {
 						p.closeInventory();
 
 						new BukkitRunnable() {
@@ -142,7 +148,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 						UtopiaArmor createdArmor = new UtopiaArmor(config);
 						createdArmor.setArmor(k);
 
-						if (clickedItem.equals(createdArmor.createArmor(clickedItem.getType().name()))) {
+						if (clickedItem.equals(createdArmor.createShopItem(clickedItem.getType().name()))) {
 							p.closeInventory();
 
 							new BukkitRunnable() {
@@ -166,7 +172,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 						UtopiaWeapon createdWeap = new UtopiaWeapon(config);
 						createdWeap.setWeapon(k);
 
-						if (clickedItem.equals(createdWeap.createWeapon(clickedItem.getType().name()))) {
+						if (clickedItem.equals(createdWeap.createShopWeapon(clickedItem.getType().name()))) {
 							e.setCancelled(true);
 
 							new BukkitRunnable() {
@@ -198,7 +204,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 					UtopiaWeapon createdWeap = new UtopiaWeapon(config);
 					createdWeap.setWeapon(k);
 
-					if (clickedItem.equals(createdWeap.createWeapon(clickedItem.getType().name()))) {
+					if (clickedItem.equals(createdWeap.createShopWeapon(clickedItem.getType().name()))) {
 						e.setCancelled(true);
 
 						new BukkitRunnable() {
@@ -227,7 +233,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 
 					if (e.getView().getTitle()
 							.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', armor.getString("Name")))) {
-						if (clickedItem.equals(createdArmor.createArmor(clickedItem.getType().name()))) {
+						if (clickedItem.equals(createdArmor.createShopItem(clickedItem.getType().name()))) {
 							e.setCancelled(true);
 
 							new BukkitRunnable() {
@@ -362,7 +368,7 @@ public class CommandHandler implements CommandExecutor, Listener {
 			if (!p.hasPermission("utopiagear.admin")) {
 				for (ItemStack i : pInv.getContents()) {
 					if (!(i == null)) {
-						if (i.isSimilar(token)) {
+						if (i.getType().equals(token.getType())) {
 							if (i.getAmount() == price) {
 								pInv.remove(i);
 								return true;

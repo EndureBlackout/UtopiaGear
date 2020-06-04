@@ -1,6 +1,7 @@
 name: MysticalGear
 main: me.endureblackout.UtopiaGear.UtopiaGear
 version: 1.0
+api: 1.15
 description: Stronger armor
 author: [EndureBlackout]
 commands:
