@@ -1,5 +1,7 @@
 package me.endureblackout.UtopiaGear;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -13,6 +15,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.endureblackout.UtopiaGear.Duels.DuelCommandHandler;
+import me.endureblackout.UtopiaGear.Duels.DuelListener;
 
 public class UtopiaGear extends JavaPlugin implements Listener {
 
@@ -28,8 +33,11 @@ public class UtopiaGear extends JavaPlugin implements Listener {
 			getConfig().options().copyDefaults(true);
 			saveConfig();
 		}
+		
+		File arenaFile = new File(getDataFolder(), "arenas.yml");
 
 		YamlConfiguration config = (YamlConfiguration) getConfig();
+		YamlConfiguration aConfig = arenaConfig(arenaFile);
 
 		@SuppressWarnings("unused")
 		ShopGUIManager manager = new ShopGUIManager(config);
@@ -41,10 +49,29 @@ public class UtopiaGear extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new FullDrawHandler(this), this);
 		getServer().getPluginManager().registerEvents(new GearEnchantHandler(this, config), this);
 		getServer().getPluginManager().registerEvents(new TridentEnchantHandler(this), this);
+		getServer().getPluginManager().registerEvents(new DuelListener(this, aConfig), this);
+		
+		
 		getCommand("mg").setExecutor(new CommandHandler(this, config));
+		getCommand("duel").setExecutor(new DuelCommandHandler(this, config, aConfig));
 
 		Bukkit.getPluginManager().registerEvents(this, this);
 		this.makeClockAndChangingTimers();
+	}
+	
+	public YamlConfiguration arenaConfig(File file) {
+		YamlConfiguration arenaConfig = YamlConfiguration.loadConfiguration(file);
+		
+		if(!file.exists()) {
+			try {
+				arenaConfig.save(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return arenaConfig;
 	}
 
 	public int r, g, b = 20;

@@ -7,3 +7,6 @@ author: [EndureBlackout]
 commands:
   mg:
     description: Main MysticalGear command.
+  duel:
+    description: MysticalGear duel command.
+

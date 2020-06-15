@@ -1,15 +1,20 @@
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\TridentEnchantHandler.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\GearEnchantHandler.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\ShopGUIManager.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\UtopiaWeapon.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\WeaponHandler.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\UtopiaArmor.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\IconMenu.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\ReflectionUtils.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\GearHandler.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\CommandHandler.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\ParticleEffect.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\UtopiaGear.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\FullDrawHandler.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\StopBrewEvent.java
-D:\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Colors.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Duels\Duel.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Duels\DuelCommandHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Duels\DuelArena.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\CommandHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\ParticleEffect.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\StopBrewEvent.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\UtopiaWeapon.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\UtopiaGear.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\FullDrawHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\GearEnchantHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\GearHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Colors.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Duels\Countdown.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\IconMenu.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\TridentEnchantHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\Duels\DuelListener.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\WeaponHandler.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\ReflectionUtils.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\ShopGUIManager.java
+C:\Java Workspace\UtopiaGear\src\main\java\me\endureblackout\UtopiaGear\UtopiaArmor.java

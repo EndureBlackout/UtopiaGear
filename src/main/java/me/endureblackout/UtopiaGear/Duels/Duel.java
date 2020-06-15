@@ -12,9 +12,10 @@ public class Duel {
 
 	protected final Plugin plugin;
 
-	public Duel(Player firstPlayer, Player secondPlayer, Plugin plugin) {
+	public Duel(Player firstPlayer, Player secondPlayer, DuelArena duelArena, Plugin plugin) {
 		this.firstPlayer = firstPlayer;
 		this.secondPlayer = secondPlayer;
+		this.duelArena = duelArena;
 		this.plugin = plugin;
 	}
 
@@ -59,16 +60,17 @@ public class Duel {
 
 				@Override
 				public void count(int current) {
-					if (current <= 5) {
-						firstPlayer.sendMessage(ChatColor.GREEN + "Starting in " + current);
-						secondPlayer.sendMessage(ChatColor.GREEN + "Starting in " + current);
-					}
-					else if (current <= 0) {
+					if(current == 0) {
 						firstPlayer.teleport(duelArena.getSpawnPoint1());
 						secondPlayer.teleport(duelArena.getSpawnPoint2());
 						
 						firstPlayer.sendMessage(ChatColor.DARK_GREEN + "FIGHT!!!!");
 						secondPlayer.sendMessage(ChatColor.DARK_GREEN + "FIGHT!!!!");
+					}
+					
+					if (current <= 5 && !(current <=0)) {
+						firstPlayer.sendMessage(ChatColor.GREEN + "Starting in " + current);
+						secondPlayer.sendMessage(ChatColor.GREEN + "Starting in " + current);
 					}
 				}
 

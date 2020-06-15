@@ -8,20 +8,34 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import me.endureblackout.UtopiaGear.UtopiaGear;
+
 public class DuelArena {
-	private Location waitPos1;
-	private Location waitPos2;
-	private Location spawnPoint1;
-	private Location spawnPoint2;
+	UtopiaGear core;
+	private Location waitPos1 = null;
+	private Location waitPos2 = null;
+	private Location spawnPoint1 = null;
+	private Location spawnPoint2 = null;
+	private Location homeLocation = null;
 	private File dataFolder = Bukkit.getPluginManager().getPlugin("MysticalGear").getDataFolder();
 	
-	public DuelArena(Location wait1, Location wait2, Location spawnPoint1, Location spawnPoint2) {
-		this.setWaitPos1(wait1);
-		this.setWaitPos2(wait2);
-		this.setSpawnPoint1(spawnPoint1);
-		this.setSpawnPoint2(spawnPoint2);
+	public DuelArena(UtopiaGear core, Location wait1, Location wait2, Location spawnPoint1, Location spawnPoint2, Location homeLocation) {
+		this.core = core;
+		this.waitPos1 = wait1;
+		this.waitPos2 = wait2;
+		this.spawnPoint1 = spawnPoint1;
+		this.spawnPoint2 = spawnPoint2;
+		this.setHomeLocation(homeLocation);
 	}
 
+	public DuelArena() { }
+	
+	public DuelArena(Location spawn1, Location spawn2, UtopiaGear core) {
+		this.spawnPoint1 = spawn1;
+		this.spawnPoint2 = spawn2;
+		this.core = core;
+	}
+	
 	public Location getWaitPos1() {
 		return waitPos1;
 	}
@@ -54,6 +68,14 @@ public class DuelArena {
 		this.spawnPoint2 = spawnPoint2;
 	}
 	
+	public Location getHomeLocation() {
+		return homeLocation;
+	}
+
+	public void setHomeLocation(Location homeLocation) {
+		this.homeLocation = homeLocation;
+	}
+	
 	public void saveArena() {
 		String uid = UUID.randomUUID().toString();
 		File arenaFile = new File(dataFolder, "arenas.yml");
@@ -63,21 +85,28 @@ public class DuelArena {
 			
 			arenasYaml.createSection("Arenas");
 			arenasYaml.createSection(uid);
-			arenasYaml.set(uid + ".wait1.x", this.waitPos1.getX());
-			arenasYaml.set(uid + ".wait1.y", this.waitPos1.getY());
-			arenasYaml.set(uid + ".wait1.z", this.waitPos1.getZ());
 			
-			arenasYaml.set(uid + ".wait2.x", this.waitPos2.getX());
-			arenasYaml.set(uid + ".wait2.y", this.waitPos2.getY());
-			arenasYaml.set(uid + ".wait2.z", this.waitPos2.getZ());
+			arenasYaml.set(uid + ".world", this.waitPos1.getWorld().getName());
 			
-			arenasYaml.set(uid + ".wait1.x", this.spawnPoint1.getX());
-			arenasYaml.set(uid + ".wait1.y", this.spawnPoint1.getY());
-			arenasYaml.set(uid + ".wait1.z", this.spawnPoint1.getZ());
+			arenasYaml.set(uid + ".wait1.x", this.waitPos1.getBlockX());
+			arenasYaml.set(uid + ".wait1.y", this.waitPos1.getBlockY());
+			arenasYaml.set(uid + ".wait1.z", this.waitPos1.getBlockZ());
 			
-			arenasYaml.set(uid + ".wait1.x", this.spawnPoint2.getX());
-			arenasYaml.set(uid + ".wait1.y", this.spawnPoint2.getY());
-			arenasYaml.set(uid + ".wait1.z", this.spawnPoint2.getZ());
+			arenasYaml.set(uid + ".wait2.x", this.waitPos2.getBlockX());
+			arenasYaml.set(uid + ".wait2.y", this.waitPos2.getBlockY());
+			arenasYaml.set(uid + ".wait2.z", this.waitPos2.getBlockZ());
+			
+			arenasYaml.set(uid + ".spawn1.x", this.spawnPoint1.getBlockX());
+			arenasYaml.set(uid + ".spawn1.y", this.spawnPoint1.getBlockY());
+			arenasYaml.set(uid + ".spawn1.z", this.spawnPoint1.getBlockZ());
+			
+			arenasYaml.set(uid + ".spawn2.x", this.spawnPoint2.getBlockX());
+			arenasYaml.set(uid + ".spawn2.y", this.spawnPoint2.getBlockY());
+			arenasYaml.set(uid + ".spawn2.z", this.spawnPoint2.getBlockZ());
+			
+			arenasYaml.set(uid + ".home.x", this.homeLocation.getBlockX());
+			arenasYaml.set(uid + ".home.y", this.homeLocation.getBlockY());
+			arenasYaml.set(uid + ".home.z", this.homeLocation.getBlockZ());
 			
 			try {
 				arenasYaml.save(arenaFile);
@@ -88,21 +117,28 @@ public class DuelArena {
 			YamlConfiguration arenasYaml = YamlConfiguration.loadConfiguration(arenaFile);
 			
 			arenasYaml.createSection(uid);
-			arenasYaml.set(uid + ".wait1.x", this.waitPos1.getX());
-			arenasYaml.set(uid + ".wait1.y", this.waitPos1.getY());
-			arenasYaml.set(uid + ".wait1.z", this.waitPos1.getZ());
 			
-			arenasYaml.set(uid + ".wait2.x", this.waitPos2.getX());
-			arenasYaml.set(uid + ".wait2.y", this.waitPos2.getY());
-			arenasYaml.set(uid + ".wait2.z", this.waitPos2.getZ());
+			arenasYaml.set(uid + ".world", this.waitPos1.getWorld().getName());
 			
-			arenasYaml.set(uid + ".wait1.x", this.spawnPoint1.getX());
-			arenasYaml.set(uid + ".wait1.y", this.spawnPoint1.getY());
-			arenasYaml.set(uid + ".wait1.z", this.spawnPoint1.getZ());
+			arenasYaml.set(uid + ".wait1.x", this.waitPos1.getBlockX());
+			arenasYaml.set(uid + ".wait1.y", this.waitPos1.getBlockY());
+			arenasYaml.set(uid + ".wait1.z", this.waitPos1.getBlockZ());
 			
-			arenasYaml.set(uid + ".wait1.x", this.spawnPoint2.getX());
-			arenasYaml.set(uid + ".wait1.y", this.spawnPoint2.getY());
-			arenasYaml.set(uid + ".wait1.z", this.spawnPoint2.getZ());
+			arenasYaml.set(uid + ".wait2.x", this.waitPos2.getBlockX());
+			arenasYaml.set(uid + ".wait2.y", this.waitPos2.getBlockY());
+			arenasYaml.set(uid + ".wait2.z", this.waitPos2.getBlockZ());
+			
+			arenasYaml.set(uid + ".spawn1.x", this.spawnPoint1.getBlockX());
+			arenasYaml.set(uid + ".spawn1.y", this.spawnPoint1.getBlockY());
+			arenasYaml.set(uid + ".spawn1.z", this.spawnPoint1.getBlockZ());
+			
+			arenasYaml.set(uid + ".spawn2.x", this.spawnPoint2.getBlockX());
+			arenasYaml.set(uid + ".spawn2.y", this.spawnPoint2.getBlockY());
+			arenasYaml.set(uid + ".spawn2.z", this.spawnPoint2.getBlockZ());
+			
+			arenasYaml.set(uid + ".home.x", this.homeLocation.getBlockX());
+			arenasYaml.set(uid + ".home.y", this.homeLocation.getBlockY());
+			arenasYaml.set(uid + ".home.z", this.homeLocation.getBlockZ());
 			
 			try {
 				arenasYaml.save(arenaFile);
